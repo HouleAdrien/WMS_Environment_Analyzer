@@ -23,20 +23,21 @@
 <br />
 <div align="center">
   <a href="https://github.com/HouleAdrien/WMS_Environment_Analyzer">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="assets/logo/png/logo-no-background.png" alt="Logo" width="750" height="151.5">
   </a>
 
 <h3 align="center">WMS Environment Analyzer</h3>
   <p align="center">
-    Ce projet a pour but a partir d'une image WMS de détecter les environnements naturels listés
-    <br />
+    Ce projet a pour but a partir d'une image WMS de détecter les environnements naturels.
+    Cela au travers de deux stratégies une première algorithmique et un seconde par intelligence artifiel et apprentissage.
   </p>
 </div>
 
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
+
+<details open>
   <summary>Sommaire</summary>
   <ol>
     <li>
@@ -54,7 +55,7 @@
     </li>
     <li><a href="#utilisation">Utilisation</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contacts">Contactes</a></li>
+    <li><a href="#contacts">Contacts</a></li>
   </ol>
 </details>
 
@@ -63,18 +64,15 @@
 <!-- ABOUT THE PROJECT -->
 ## A propos du projet 
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!--  [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-Faire une description du projet avec screens
-
+Ce projet a était fait par Saint-Val Yahnis et Houle Adrien dans le cadre de notre formation dans le master imagine a Montpellier.
 
 
 ### Technologies utilisées :
 
 * ![Qt](https://img.shields.io/badge/Qt-%23217346.svg?style=for-the-badge&logo=Qt&logoColor=white)
 * ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
