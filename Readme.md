@@ -15,7 +15,8 @@
 <!-- [![Forks][forks-shield]][forks-url] -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
+[![Issues Open][issues-open-shield]][issues-open-url]
+[![Issues Closed][issues-closed-shield]][issues-closed-url]
 
 
 
@@ -121,7 +122,8 @@ Project Link: [https://github.com/HouleAdrien/WMS_Environment_Analyzer](https://
 [stars-shield]: https://img.shields.io/github/stars/HouleAdrien/WMS_Environment_Analyzer.svg?style=for-the-badge
 [stars-url]: https://github.com/HouleAdrien/WMS_Environment_Analyzer/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/HouleAdrien/WMS_Environment_Analyzer.svg?style=for-the-badge
+[issues-open-shield]: https://img.shields.io/github/issues/HouleAdrien/WMS_Environment_Analyzer.svg?style=for-the-badge
+[issues-open-url]: https://github.com/HouleAdrien/WMS_Environment_Analyzer/issues
 
-[issues-url]: https://github.com/HouleAdrien/WMS_Environment_Analyzer/issues
-[issues-url]: https://github.com/HouleAdrien/WMS_Environment_Analyzer/issues
+[issues-closed-shield]: https://img.shields.io/github/issues-closed/HouleAdrien/WMS_Environment_Analyzer.svg?style=for-the-badge
+[issues-closed-url]: https://github.com/HouleAdrien/WMS_Environment_Analyzer/issues?q=is%3Aissue+is%3Aclosed
