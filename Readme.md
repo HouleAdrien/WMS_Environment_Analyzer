@@ -79,11 +79,13 @@ Ce projet a était fait par Saint-Val Yahnis et Houle Adrien dans le cadre de no
 <!-- GETTING STARTED -->
 ## Comment commencer ?
 
-Pour démarrer le projet il faut suivre les étapes suivantes.
+Pour démarrer le projet (dans qt) il faut suivre les étapes suivantes.
 
 ### Prérequis :
 
-décrire prérequis
+Tout d'abord il faut installer QT creator (11.02) sur votre ordinateur.
+Il faut également installer GDAL, l'installateur windowns peut se télécharger ici https://download.osgeo.org/osgeo4w/osgeo4w-setup-v2.exe 
+Il faut faire une installation express et ne sélectionné que GDAL cela peut prendre un peu de temps.
 
 ### Installation 
 
