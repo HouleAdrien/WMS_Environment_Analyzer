@@ -30,8 +30,10 @@ void KMeansAnalyzer::initClusters(int numClusters, float minDistanceMean)
         }
         mean /= mcount;
         itCount++;
-        cout << "|";
-    } while(mean > minDistanceMean);
+        if(itCount%10 == 0){
+            cout << "|";
+        }
+    } while(mean < minDistanceMean);
     cout << "Initialized clusters with a mean-distance of " << mean << " after " << itCount << endl; 
 }
 
@@ -40,7 +42,7 @@ void KMeansAnalyzer::displayClusters()
     cout << "Clusters :" << endl;
     for(int c = 0 ; c < clusters.size(); c++)
     {
-        cout << "  - " << clusters.at(c).r << " " << clusters.at(c).g << " " << clusters.at(c).b << endl;
+        cout << "  - " << (int)clusters.at(c).r << " " << (int)clusters.at(c).g << " " << (int)clusters.at(c).b << endl;
     }
 }
 
@@ -66,7 +68,7 @@ void KMeansAnalyzer::processImage(ImageBase* image)
 
 void KMeansAnalyzer::performKMeansClustering(int numClusters) 
 {
-    initClusters(numClusters,25);
+    initClusters(numClusters,200);
     displayClusters();
 
     ImageBase* currentImage = new ImageBase();
