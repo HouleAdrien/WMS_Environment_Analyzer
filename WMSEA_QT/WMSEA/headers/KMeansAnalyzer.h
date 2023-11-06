@@ -2,22 +2,50 @@
 #ifndef KMEANSANALYZER_H
 #define KMEANSANALYZER_H
 
+#include "ImageBase.h"
+#include <filesystem> 
+#include <iostream> 
+#include <cstdlib>
+#include <ctime>
+
 #include <vector>
 #include <string>
 
-class KMeansAnalyzer {
+using namespace std;
+
+class KMeansAnalyzer 
+{
+private:
+    string imagesPath;
+    vector<string> imagesPathes;
+
+    vector<Color> clusters; 
+    vector<vector<Color>> clusterValues;
+    
 public:
     KMeansAnalyzer();
+    KMeansAnalyzer(string _path)
+    {
+        imagesPath = _path;
+        if(filesystem::exists(imagesPath))
+        {
+            for(const auto & entry : filesystem::directory_iterator(imagesPath))
+            {
+                imagesPathes.push_back(entry.path().generic_string());
+            }
+        }else{cout << "Couldnt find path : " << imagesPath << endl; }
+    }
     ~KMeansAnalyzer();
 
-    // Charger une image satellite à partir d'un fichier
-    bool loadImage(const std::string& imagePath);
+    void displayClusters();
 
     // Définir le nombre de clusters pour le K-Means
-    void setNumClusters(int numClusters);
+    void initClusters(int numClusters, float minDistanceMean);
+
+    void processImage(ImageBase* image);
 
     // Effectuer le clustering K-Means
-    void performKMeansClustering();
+    void performKMeansClustering(int numClusters);
 
     // Obtenir l'image résultante après clustering
     std::vector<std::vector<int>> getClusteredImage() const;
