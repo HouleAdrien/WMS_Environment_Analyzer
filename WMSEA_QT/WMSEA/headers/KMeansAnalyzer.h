@@ -46,9 +46,9 @@ public:
 
     // Effectuer le clustering K-Means
     void performKMeansClustering(int numClusters);
-
-    // Obtenir l'image résultante après clustering
-    std::vector<std::vector<int>> getClusteredImage() const;
+    
+    ImageBase* generateClusteredImage(ImageBase* input);
+    void generateClusteredImages();
 };
 
 #endif // KMEANSANALYZER_H

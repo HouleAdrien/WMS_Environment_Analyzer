@@ -100,9 +100,41 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters)
     cout << "Done" << endl;
 }
 
-std::vector<std::vector<int>> KMeansAnalyzer::getClusteredImage() const {
-    // Implémentez la fonction pour obtenir l'image résultante après clustering.
-    // Retournez les données des clusters ou l'image résultante.
+ImageBase* KMeansAnalyzer::generateClusteredImage(ImageBase* input)
+{
+    ImageBase* output = new ImageBase(input->getWidth(), input->getHeight(), input->getColor());
+    Color p; float minDistance; int clusterId;
+    for(int i = 0; i < input->getSize();i++)
+    {
+        p = input->readColor(i);
+        minDistance = 100000;
+        for(int c = 0; c < clusters.size(); c++)
+        {
+            float d = clusters.at(c).distance(p);
+            if(d < minDistance)
+            {
+                clusterId = c;
+                minDistance = d;
+            }
+            output->setColor(i,clusters.at(clusterId));
+        }
+    }
+
+    return output;
+}
+
+void KMeansAnalyzer::generateClusteredImages()
+{
+    filesystem::create_directory(imagesPath + "/results");
+    ImageBase* currentImage = new ImageBase();
+    cout << "Clustering all " << imagesPathes.size() << " images" << endl;
+    for(int i = 0; i < imagesPathes.size(); i++)
+    {
+        currentImage->load( imagesPathes.at(i).data());
+        ImageBase* cImage = generateClusteredImage(currentImage);
+        string cp = imagesPath + "/results/" + imagesPathes.at(i);
+        cImage->save(cp.data());
+    }
 }
 
 // Vous pouvez également implémenter d'autres méthodes pour gérer les résultats et d'autres fonctionnalités.
