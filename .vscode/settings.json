@@ -4,6 +4,8 @@
         "vector": "cpp",
         "iostream": "cpp",
         "atomic": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "limits": "cpp",
+        "ratio": "cpp"
     }
 }

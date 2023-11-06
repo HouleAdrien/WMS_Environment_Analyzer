@@ -10,7 +10,7 @@ void KMeansAnalyzer::initClusters(int numClusters, float minDistanceMean)
     srand(time(NULL));
     clusterValues.resize(numClusters);
     cout << "Initializing " << numClusters << " clusters with target mean-distance of " << minDistanceMean << endl;
-    float mean = FLT_MAX; int itCount = 0;
+    float mean = 999999999; int itCount = 0;
     do
     {
         clusters.clear();
@@ -74,7 +74,7 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters)
     cout << "Processing all " << imagesPathes.size() << " images" << endl;
     for(int i = 0; i < imagesPathes.size(); i++)
     {
-        currentImage->load(imagesPathes.at(i).c_str());
+        currentImage->load( imagesPathes.at(i).data());
         processImage(currentImage);
     }
 

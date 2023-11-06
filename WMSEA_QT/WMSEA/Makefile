@@ -7,8 +7,8 @@ BIN=main
 
 # liste des fichiers sources 
 SRCS0=main.cpp
-SRCS1=sources/ImageBase.cpp
-SRCS2=sources/KMeansAnalyser.cpp
+IMAGE=sources/ImageBase.cpp
+KMEAN=sources/KMeansAnalyser.cpp
 
 default: $(BIN)
 
@@ -16,11 +16,11 @@ default: $(BIN)
 #~ regles pour l'executable
 ########################################
 
-obj/%.o: %.c
+%.o: %.cpp
 	gcc -Wall -Iinclude -c $< -o $@
 
-main: $(SRCS0:%.c=obj/%.o) $(SRCS1:%.c=obj/%.o)  $(SRCS2:%.c=obj/%.o)
+main: $(SRCS0:%.cpp=%.o) $(IMAGE:%.cpp=%.o)  $(KMEAN:%.cpp=%.o)
 	g++ -o $@ $+
 
 clean:
-	rm -f $(BIN) obj/*.o *~
+	rm -f $(BIN) *.o *~

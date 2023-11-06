@@ -115,7 +115,7 @@ public:
 	unsigned char *getData() { return data; };
 	void setData(unsigned char* dat){for(int i = 0; i < getSize(); ++i){data[i] = dat[i];}}
 
-	void load(const char *filename);
+	void load(char *filename);
 	bool save(char *filename);
 
 	ImageBase *getPlan(PLAN plan);
