@@ -62,7 +62,10 @@ void KMeansAnalyzer::processImage(ImageBase* image)
                 minDistance = d;
             }
         }
-        clusterValues.at(clusterId).push_back(p);
+        //clusterValues.at(clusterId).push_back(p);
+        clusters.at(c).r = (clusters.at(c).r + (p.r * clusteMeaningForce)) / (1+clusteMeaningForce);
+        clusters.at(c).g = (clusters.at(c).g + (p.g * clusteMeaningForce)) / (1+clusteMeaningForce);
+        clusters.at(c).b = (clusters.at(c).b + (p.b * clusteMeaningForce)) / (1+clusteMeaningForce);
     }
 }
 

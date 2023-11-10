@@ -21,6 +21,8 @@ private:
 
     vector<Color> clusters; 
     vector<vector<Color>> clusterValues;
+    
+    float clusteMeaningForce = 0.1f;
     const Color colors[10] = { 
             Color(0,0,0),
             Color(255,255,255),
