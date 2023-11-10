@@ -46,7 +46,7 @@ void KMeansAnalyzer::displayClusters()
     }
 }
 
-void KMeansAnalyzer::processImage(ImageBase* image)
+void KMeansAnalyzer::processImage(ImageBase* image,float clusterMeaningForce )
 {
     int clusterId; Color p; float minDistance;
     for(int i = 0; i < image->getSize();i++)
@@ -63,9 +63,18 @@ void KMeansAnalyzer::processImage(ImageBase* image)
             }
         }
         //clusterValues.at(clusterId).push_back(p);
-        clusters.at(c).r = (clusters.at(c).r + (p.r * clusteMeaningForce)) / (1+clusteMeaningForce);
-        clusters.at(c).g = (clusters.at(c).g + (p.g * clusteMeaningForce)) / (1+clusteMeaningForce);
-        clusters.at(c).b = (clusters.at(c).b + (p.b * clusteMeaningForce)) / (1+clusteMeaningForce);
+        float r = clusters.at(clusterId).r; float g = clusters.at(clusterId).g; float b= clusters.at(clusterId).b;
+    /*  cout << "--------------------------------------------------------------------------------"<<endl;
+        cout << r << endl;
+        cout << clusterMeaningForce << endl;
+        cout << (float)p.r * clusterMeaningForce << endl;
+        cout << (r + ((float)p.r * clusterMeaningForce)) << endl;
+        cout << (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce) << endl;
+        cin >> r;*/  
+        
+        clusters.at(clusterId).r = (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce);
+        clusters.at(clusterId).g = (g + ((float)p.g * clusterMeaningForce)) / (1+clusterMeaningForce);
+        clusters.at(clusterId).b = (b + ((float)p.b * clusterMeaningForce)) / (1+clusterMeaningForce);
     }
 }
 
@@ -80,7 +89,7 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters)
     for(int i = 0; i < imagesPathes.size(); i++)
     {
         currentImage->load( imagesPathes.at(i).data());
-        processImage(currentImage);
+        processImage(currentImage,0.1f);
     }
 
    /* cout << "Reprocessing clusters" << endl;

@@ -22,7 +22,6 @@ private:
     vector<Color> clusters; 
     vector<vector<Color>> clusterValues;
     
-    float clusteMeaningForce = 0.1f;
     const Color colors[10] = { 
             Color(0,0,0),
             Color(255,255,255),
@@ -56,7 +55,7 @@ public:
     // Définir le nombre de clusters pour le K-Means
     void initClusters(int numClusters, float minDistanceMean);
 
-    void processImage(ImageBase* image);
+    void processImage(ImageBase* image,float clusterMeaningForce = 0.1f);
 
     // Effectuer le clustering K-Means
     void performKMeansClustering(int numClusters);
