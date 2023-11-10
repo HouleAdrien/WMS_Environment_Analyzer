@@ -80,7 +80,7 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters)
         processImage(currentImage);
     }
 
-    cout << "Reprocessing clusters" << endl;
+   /* cout << "Reprocessing clusters" << endl;
     for(int c = 0; c < clusters.size();c++)
     {
         float r = 0; float g = 0; float b = 0;
@@ -94,7 +94,7 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters)
         g /= clusterValues.at(c).size();
         b /= clusterValues.at(c).size();
         clusters.at(c) = Color(r,g,b);
-    }
+    } */
 
     displayClusters();
     cout << "Done" << endl;
@@ -116,7 +116,7 @@ ImageBase* KMeansAnalyzer::generateClusteredImage(ImageBase* input)
                 clusterId = c;
                 minDistance = d;
             }
-            output->setColor(i,clusters.at(clusterId));
+            output->setColor(i,colors[clusterId]);
         }
     }
 
@@ -132,7 +132,7 @@ void KMeansAnalyzer::generateClusteredImages()
     {
         currentImage->load( imagesPathes.at(i).data());
         ImageBase* cImage = generateClusteredImage(currentImage);
-        string cp = imagesPath + "/results/" + imagesPathes.at(i);
+        string cp = imagesPath + "/results/" + imagesPathes.at(i).substr(imagesPathes.at(i).find_last_of("/\\") + 1);
         cImage->save(cp.data());
     }
 }

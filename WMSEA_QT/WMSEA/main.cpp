@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    KMeansAnalyzer kma = KMeansAnalyzer("../../data");
+    KMeansAnalyzer kma = KMeansAnalyzer("../../datasets/truemarblepartials/test2");
     kma.performKMeansClustering(10);
     kma.generateClusteredImages();
     return 0;
