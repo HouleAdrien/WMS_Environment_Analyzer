@@ -43,7 +43,7 @@ void KMeansAnalyzer::initClusters(int numClusters, float minDistanceMean)
         } while(mean < minDistanceMean);
         cout << "Initialized clusters with a mean-distance of " << mean << " after " << itCount << endl; 
     }
-for(Color c : clusters)
+    for(Color c : clusters)
     {
         Color p = Color(c.r,c.g,c.b);
         p.toHSL();
@@ -112,6 +112,9 @@ void KMeansAnalyzer::processImage(ImageBase* image,ClusteringMethod cm, Clusteri
                 clusters.at(clusterId).r = (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce);
                 clusters.at(clusterId).g = (g + ((float)p.g * clusterMeaningForce)) / (1+clusterMeaningForce);
                 clusters.at(clusterId).b = (b + ((float)p.b * clusterMeaningForce)) / (1+clusterMeaningForce);
+
+                clustersHSL.at(clusterId) = Color(clusters.at(clusterId).r ,clusters.at(clusterId).g,clusters.at(clusterId).b);
+                clustersHSL.at(clusterId).toHSL();
                 break;
         }
 
