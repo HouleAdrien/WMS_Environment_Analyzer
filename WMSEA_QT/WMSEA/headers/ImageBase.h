@@ -52,6 +52,64 @@ struct Color
 		return (unsigned char)max(0,min(255,(int)(-0.1687 * r - 0.3313 * g + 0.5 * b) + 128));//((r-getY())/(double)(2-2*0.299*r))
 	}
 
+	double hueDistance(Color c)
+	{
+		double a = abs(r - c.r);
+		double b = (r < c.r) ? (r + (255 - c.r)) : (c.r + (255 - r));
+
+		return min(a,b);
+	}
+
+	double hslDistance(Color c)
+	{
+		double hc = hueDistance(c);
+		return sqrt( (hc*hc) + (g-c.g) + (b-c.b));
+	}
+
+	void toHSL()
+	{
+		 // Normalize RGB values
+	    double rf = r / 255.0;
+	    double gf = g / 255.0;
+	    double bf = b / 255.0;
+
+	    double maxColor = fmax(fmax(rf, gf), bf);
+	    double minColor = fmin(fmin(rf, gf), bf);
+
+	    double delta = maxColor - minColor;
+	    
+	    // Calculate lightness
+	    double l = (maxColor + minColor) / 2.0;
+
+	    // Calculate saturation
+	    double s = 0.0;
+	    if (delta != 0.0) {
+	        s = delta / (1 - fabs(2 * l - 1));
+	    }
+
+	    // Calculate hue
+	    double h = 0.0;
+	    if (delta != 0.0) {
+	        if (maxColor == rf) {
+	            h = 60.0 * fmod((gf - bf) / delta, 6.0);
+	        } else if (maxColor == gf) {
+	            h = 60.0 * ((bf - rf) / delta + 2.0);
+	        } else if (maxColor == bf) {
+	            h = 60.0 * ((rf - gf) / delta + 4.0);
+	        }
+	    }
+
+	    // Ensure hue is within [0, 360]
+	    if (h < 0) {
+	        h += 360.0;
+	    }
+
+	    // Convert HSL values to unsigned char
+	    r = static_cast<unsigned char>(h * 255.0 / 360.0);
+	    g = static_cast<unsigned char>(s * 255.0);
+	    b = static_cast<unsigned char>(l * 255.0);
+	}
+
 	Color()
 	{
 		r = rand() % 256;

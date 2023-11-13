@@ -7,34 +7,42 @@ KMeansAnalyzer::~KMeansAnalyzer() {}
 
 void KMeansAnalyzer::initClusters(int numClusters, float minDistanceMean) 
 {
-    srand(time(NULL));
-    clusterValues.resize(numClusters);
-    cout << "Initializing " << numClusters << " clusters with target mean-distance of " << minDistanceMean << endl;
-    float mean = 999999999; int itCount = 0;
-    do
+    if(clustersInitColors.size() > 0)
     {
-        clusters.clear();
-        for(int i = 0; i < numClusters; i++)
+        for(Color c : clustersInitColors) {clusters.push_back(c);}
+            cout << "Initialized " << clusters.size() << " clusters with user-given colors" << endl;
+    }
+    else
+    {
+        srand(time(NULL));
+        clusterValues.resize(numClusters);
+        cout << "Initializing " << numClusters << " clusters with target mean-distance of " << minDistanceMean << endl;
+        float mean = 999999999; int itCount = 0;
+        do
         {
-            Color c = Color();
-            clusters.push_back(c);
-        }
-        mean = 0; int mcount = 0;
-        for(int i = 0; i < numClusters; i++)
-        {
-            for(int j = 1; j < numClusters; j++)
+            clusters.clear();
+            for(int i = 0; i < numClusters; i++)
             {
-                mean += clusters.at(i).distance(clusters.at(j));
-                mcount++;
+                Color c = Color();
+                clusters.push_back(c);
             }
-        }
-        mean /= mcount;
-        itCount++;
-        if(itCount%10 == 0){
-            cout << "|";
-        }
-    } while(mean < minDistanceMean);
-    cout << "Initialized clusters with a mean-distance of " << mean << " after " << itCount << endl; 
+            mean = 0; int mcount = 0;
+            for(int i = 0; i < numClusters; i++)
+            {
+                for(int j = 1; j < numClusters; j++)
+                {
+                    mean += clusters.at(i).distance(clusters.at(j));
+                    mcount++;
+                }
+            }
+            mean /= mcount;
+            itCount++;
+            if(itCount%10 == 0){
+                cout << "|";
+            }
+        } while(mean < minDistanceMean);
+        cout << "Initialized clusters with a mean-distance of " << mean << " after " << itCount << endl; 
+    }
 }
 
 void KMeansAnalyzer::displayClusters()
@@ -46,41 +54,69 @@ void KMeansAnalyzer::displayClusters()
     }
 }
 
-void KMeansAnalyzer::processImage(ImageBase* image,float clusterMeaningForce )
+int KMeansAnalyzer::getClosestCluster(Color p, ClusteringColorMode ccm)
 {
-    int clusterId; Color p; float minDistance;
+    int clusterId = 0;
+
+    float minDistance = 100000;
+    for(int c = 0; c < clusters.size(); c++)
+    {
+        float d = 0;
+        switch(ccm)
+        {
+            case RGB:
+                d = clusters.at(c).distance(p);
+                break;
+            case HSL:
+                p.toHSL();
+                Color clusterC = Color(clusters.at(c).r,clusters.at(c).g,clusters.at(c).b);
+                clusterC.toHSL();
+                d = clusterC.hslDistance(p);
+                break;
+        }
+        if(d < minDistance)
+        {
+            clusterId = c;
+            minDistance = d;
+        }
+    }
+
+    return clusterId;
+}
+
+void KMeansAnalyzer::processImage(ImageBase* image,ClusteringMethod cm, ClusteringColorMode ccm,float clusterMeaningForce ) 
+{
+    int clusterId; Color p;
     for(int i = 0; i < image->getSize();i++)
     {
         p = image->readColor(i);
-        minDistance = 100000;
-        for(int c = 0; c < clusters.size(); c++)
+        clusterId = getClosestCluster(p,ccm);
+        switch(cm)
         {
-            float d = clusters.at(c).distance(p);
-            if(d < minDistance)
-            {
-                clusterId = c;
-                minDistance = d;
-            }
+            case BASE: break;
+            case ADAPTATIVE:
+                //clusterValues.at(clusterId).push_back(p);
+                float r = clusters.at(clusterId).r; float g = clusters.at(clusterId).g; float b= clusters.at(clusterId).b;
+            /*  cout << "--------------------------------------------------------------------------------"<<endl;
+                cout << r << endl;
+                cout << clusterMeaningForce << endl;
+                cout << (float)p.r * clusterMeaningForce << endl;
+                cout << (r + ((float)p.r * clusterMeaningForce)) << endl;
+                cout << (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce) << endl;
+                cin >> r;*/                 
+                clusters.at(clusterId).r = (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce);
+                clusters.at(clusterId).g = (g + ((float)p.g * clusterMeaningForce)) / (1+clusterMeaningForce);
+                clusters.at(clusterId).b = (b + ((float)p.b * clusterMeaningForce)) / (1+clusterMeaningForce);
+                break;
         }
-        //clusterValues.at(clusterId).push_back(p);
-        float r = clusters.at(clusterId).r; float g = clusters.at(clusterId).g; float b= clusters.at(clusterId).b;
-    /*  cout << "--------------------------------------------------------------------------------"<<endl;
-        cout << r << endl;
-        cout << clusterMeaningForce << endl;
-        cout << (float)p.r * clusterMeaningForce << endl;
-        cout << (r + ((float)p.r * clusterMeaningForce)) << endl;
-        cout << (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce) << endl;
-        cin >> r;*/  
-        
-        clusters.at(clusterId).r = (r + ((float)p.r * clusterMeaningForce)) / (1+clusterMeaningForce);
-        clusters.at(clusterId).g = (g + ((float)p.g * clusterMeaningForce)) / (1+clusterMeaningForce);
-        clusters.at(clusterId).b = (b + ((float)p.b * clusterMeaningForce)) / (1+clusterMeaningForce);
+
     }
 }
 
-void KMeansAnalyzer::performKMeansClustering(int numClusters) 
+void KMeansAnalyzer::performKMeansClustering(int numClusters,ClusteringMethod cm, ClusteringColorMode ccm) 
 {
     initClusters(numClusters,200);
+    
     displayClusters();
 
     ImageBase* currentImage = new ImageBase();
@@ -89,7 +125,7 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters)
     for(int i = 0; i < imagesPathes.size(); i++)
     {
         currentImage->load( imagesPathes.at(i).data());
-        processImage(currentImage,0.1f);
+        processImage(currentImage,cm,ccm,0.1f);
     }
 
    /* cout << "Reprocessing clusters" << endl;
