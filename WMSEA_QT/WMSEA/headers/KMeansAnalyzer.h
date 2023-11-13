@@ -22,18 +22,30 @@ private:
     vector<Color> clusters; 
     vector<vector<Color>> clusterValues;
     
-    const Color colors[10] = { 
-            Color(0,0,0),
-            Color(255,255,255),
-            Color(0,0,255),
-            Color(255,0,0),
-            Color(0,255,0),
-            Color(255,255,0),
-            Color(255,0,255),
-            Color(0,255,255),
-            Color(255,128,128),
-            Color(128,128,255)
-        };
+const Color colors[20] = { 
+    Color(0,0,0),
+    Color(255,255,255),
+    Color(0,0,255),
+    Color(255,0,0),
+    Color(0,255,0),
+    Color(255,255,0),
+    Color(255,0,255),
+    Color(0,255,255),
+    Color(255,128,128),
+    Color(128,128,255),
+    // Additional colors
+    Color(128,0,0),         // Dark Red
+    Color(128,128,0),       // Olive
+    Color(0,128,0),         // Dark Green
+    Color(128,0,128),       // Purple
+    Color(0,128,128),       // Teal
+    Color(0,0,128),         // Navy
+    Color(192,192,192),     // Silver
+    Color(128,128,128),     // Gray
+    Color(255,165,0),       // Orange
+    Color(255,192,203)      // Pink
+};
+
     
 public:
     KMeansAnalyzer();
