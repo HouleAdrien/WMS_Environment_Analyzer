@@ -43,6 +43,12 @@ void KMeansAnalyzer::initClusters(int numClusters, float minDistanceMean)
         } while(mean < minDistanceMean);
         cout << "Initialized clusters with a mean-distance of " << mean << " after " << itCount << endl; 
     }
+for(Color c : clusters)
+    {
+        Color p = Color(c.r,c.g,c.b);
+        p.toHSL();
+        clustersHSL.push_back(p);
+    }
 }
 
 void KMeansAnalyzer::displayClusters()
@@ -58,6 +64,8 @@ int KMeansAnalyzer::getClosestCluster(Color p, ClusteringColorMode ccm)
 {
     int clusterId = 0;
 
+    if(ccm == HSL){p.toHSL();}
+
     float minDistance = 100000;
     for(int c = 0; c < clusters.size(); c++)
     {
@@ -68,10 +76,7 @@ int KMeansAnalyzer::getClosestCluster(Color p, ClusteringColorMode ccm)
                 d = clusters.at(c).distance(p);
                 break;
             case HSL:
-                p.toHSL();
-                Color clusterC = Color(clusters.at(c).r,clusters.at(c).g,clusters.at(c).b);
-                clusterC.toHSL();
-                d = clusterC.hslDistance(p);
+                d = clustersHSL.at(c).hslDistance(p);
                 break;
         }
         if(d < minDistance)

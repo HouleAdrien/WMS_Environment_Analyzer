@@ -33,7 +33,7 @@ private:
 
     vector<Color> clusters; 
     vector<vector<Color>> clusterValues;
-    
+    vector<Color> clustersHSL;
     vector<Color> clustersInitColors;
 
     const Color colors[20] = { 
