@@ -190,6 +190,7 @@ void KMeansAnalyzer::generateClusteredImages()
         ImageBase* cImage = generateClusteredImage(currentImage);
         string cp = imagesPath + "/results/" + imagesPathes.at(i).substr(imagesPathes.at(i).find_last_of("/\\") + 1);
         cImage->save(cp.data());
+        free(cImage);
     }
 }
 
