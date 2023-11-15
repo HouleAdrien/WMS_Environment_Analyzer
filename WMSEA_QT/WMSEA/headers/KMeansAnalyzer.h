@@ -102,6 +102,7 @@ public:
     void generateClusteredImages(bool pgm = false);
 
     ImageBase* colorizePgmImage(ImageBase* image, vector<Color> colors);
+    void colorizePgmImages();
 
     void writeClusterDataFile();
     void readClusterDataFile(string path);

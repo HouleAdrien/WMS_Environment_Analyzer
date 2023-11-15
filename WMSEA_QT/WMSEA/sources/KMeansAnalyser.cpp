@@ -199,7 +199,7 @@ void KMeansAnalyzer::generateClusteredImages(bool pgm)
         string nam = imagesPathes.at(i).substr(imagesPathes.at(i).find_last_of("/\\") + 1);
         size_t dotPosition = nam.find_last_of('.');
         nam = nam.substr(0, dotPosition);
-        string cp = imagesPath + "/results/" + nam + (pgm ? ".pgm" : "ppm");
+        string cp = imagesPath + "/results/" + nam + (pgm ? ".pgm" : ".ppm");
         
         cImage->save(cp.data());
         free(cImage);
@@ -214,6 +214,11 @@ ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image, vector<Color> colo
         output->setColor(i,colors.at(image->get(i,0)));
     }
     return output;
+}
+
+void KMeansAnalyzer::colorizePgmImages()
+{
+    
 }
 
 void KMeansAnalyzer::writeClusterDataFile()
