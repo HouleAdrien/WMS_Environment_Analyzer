@@ -3,8 +3,13 @@
 #define KMEANSANALYZER_H
 
 #include "ImageBase.h"
+
+#include <sstream>
 #include <filesystem> 
 #include <iostream> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <fstream>
 #include <cstdlib>
 #include <ctime>
 
@@ -93,8 +98,13 @@ public:
     // Effectuer le clustering K-Means
     void performKMeansClustering(int numClusters,ClusteringMethod cm, ClusteringColorMode ccm);
     
-    ImageBase* generateClusteredImage(ImageBase* input);
-    void generateClusteredImages();
+    ImageBase* generateClusteredImage(ImageBase* input,bool pgm = false);
+    void generateClusteredImages(bool pgm = false);
+
+    ImageBase* colorizePgmImage(ImageBase* image, vector<Color> colors);
+
+    void writeClusterDataFile();
+    void readClusterDataFile(string path);
 };
 
 #endif // KMEANSANALYZER_H

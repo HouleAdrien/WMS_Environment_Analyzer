@@ -156,9 +156,9 @@ void KMeansAnalyzer::performKMeansClustering(int numClusters,ClusteringMethod cm
     cout << "Done" << endl;
 }
 
-ImageBase* KMeansAnalyzer::generateClusteredImage(ImageBase* input)
+ImageBase* KMeansAnalyzer::generateClusteredImage(ImageBase* input, bool pgm)
 {
-    ImageBase* output = new ImageBase(input->getWidth(), input->getHeight(), input->getColor());
+    ImageBase* output = new ImageBase(input->getWidth(), input->getHeight(), !pgm);
     Color p; float minDistance; int clusterId;
     for(int i = 0; i < input->getSize();i++)
     {
@@ -172,14 +172,21 @@ ImageBase* KMeansAnalyzer::generateClusteredImage(ImageBase* input)
                 clusterId = c;
                 minDistance = d;
             }
-            output->setColor(i,colors[clusterId]);
+            if(pgm)
+            {
+                output->set(i,0,clusterId);
+            }
+            else
+            {
+                output->setColor(i,colors[clusterId]);
+            }
         }
     }
 
     return output;
 }
 
-void KMeansAnalyzer::generateClusteredImages()
+void KMeansAnalyzer::generateClusteredImages(bool pgm)
 {
     filesystem::create_directory(imagesPath + "/results");
     ImageBase* currentImage = new ImageBase();
@@ -187,12 +194,64 @@ void KMeansAnalyzer::generateClusteredImages()
     for(int i = 0; i < imagesPathes.size(); i++)
     {
         currentImage->load( imagesPathes.at(i).data());
-        ImageBase* cImage = generateClusteredImage(currentImage);
-        string cp = imagesPath + "/results/" + imagesPathes.at(i).substr(imagesPathes.at(i).find_last_of("/\\") + 1);
+        ImageBase* cImage = generateClusteredImage(currentImage,pgm);
+
+        string nam = imagesPathes.at(i).substr(imagesPathes.at(i).find_last_of("/\\") + 1);
+        size_t dotPosition = nam.find_last_of('.');
+        nam = nam.substr(0, dotPosition);
+        string cp = imagesPath + "/results/" + nam + (pgm ? ".pgm" : "ppm");
+        
         cImage->save(cp.data());
         free(cImage);
     }
 }
+
+ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image, vector<Color> colors)
+{
+    ImageBase* output = new ImageBase(image->getWidth(),image->getHeight(),true);
+    for(int i = 0; i < image->getSize();i++)
+    {
+        output->setColor(i,colors.at(image->get(i,0)));
+    }
+    return output;
+}
+
+void KMeansAnalyzer::writeClusterDataFile()
+{
+    string cp = imagesPath + "/results/clusterData.txt";
+    ofstream myfile;
+    myfile.open (cp);
+    for(int i = 0 ; i < clusters.size();i++)
+    {
+        myfile << (int)clusters.at(i).r << " ";
+        myfile << (int)clusters.at(i).g << " ";
+        myfile << (int)clusters.at(i).b << "\n" ;
+    }
+    myfile.close();
+}
+
+ void KMeansAnalyzer::readClusterDataFile(string path)
+ {
+    string line;
+    ifstream myfile (path);
+    if (myfile.is_open())
+    {
+        while ( getline (myfile,line) )
+        {
+            vector<int> dat;
+            std::istringstream iss(line);
+
+            int value;
+            while (iss >> value) {
+                dat.push_back(value);
+            }
+            Color color = Color(dat.at(0),dat.at(1),dat.at(2));
+            clusters.push_back(color);
+        }
+        myfile.close();
+    }
+    else{cout << "Couldn't read file " << path << endl;}
+ }
 
 // Vous pouvez également implémenter d'autres méthodes pour gérer les résultats et d'autres fonctionnalités.
 
