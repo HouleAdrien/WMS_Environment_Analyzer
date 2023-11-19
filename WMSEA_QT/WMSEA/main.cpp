@@ -2,9 +2,9 @@
 
 int main(int argc, char *argv[])
 {
-    KMeansAnalyzer kma = KMeansAnalyzer("../../datasets/truemarblepartials/test3/dat");
+    KMeansAnalyzer kma = KMeansAnalyzer("../../datasets/truemarblepartials/test2");
 
-    /*
+    
     kma.addClusterInitColor(Color(0,0,0));
     kma.addClusterInitColor(Color(128,128,128));
     kma.addClusterInitColor(Color(255,255,255));
@@ -24,14 +24,14 @@ int main(int argc, char *argv[])
 
     //kma.addClusterInitColor(Color(255,128,128));
     //kma.addClusterInitColor(Color(128,255,128));
-    //kma.addClusterInitColor(Color(128,128,255));*/
+    //kma.addClusterInitColor(Color(128,128,255));
 
-    //kma.performKMeansClustering(15,ADAPTATIVE,HSL);
+    kma.performKMeansClustering(11,ADAPTATIVE,HSL);
 
-    kma.readClusterDataFile("../../datasets/truemarblepartials/test3/clusterData.txt");
-    kma.displayClusters();
+ //   kma.readClusterDataFile("../../datasets/truemarblepartials/test3/clusterData.txt");
+  //  kma.displayClusters();
 
-    vector<Color> colors;
+ /*   vector<Color> colors;
     colors.push_back(Color(50,50,50));  //gray
     colors.push_back(Color(50,200,50)); //green
     colors.push_back(Color(255,140,0)); //ORANGE
@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
 
     ImageBase* image = new ImageBase(); image->load("../../datasets/truemarblepartials/test3/PGM.pgm");
     ImageBase* cimage = kma.colorizePgmImage(image,colors);
-    cimage->save("../../datasets/truemarblepartials/test3/PGM.ppm");
+    cimage->save("../../datasets/truemarblepartials/test3/PGM.ppm"); */
 
-    //kma.generateClusteredImages(true);
-    //kma.writeClusterDataFile();
+    kma.generateClusteredImages(true);
+    kma.writeClusterDataFile();
 
     return 0;
 }
