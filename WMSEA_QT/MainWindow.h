@@ -2,20 +2,27 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+#include <QLabel>
+#include <QPushButton>
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void LoadBaseImage();
+    void loadClusterOfImage();
+    void updateImagePath(const QString &newPath);
 private:
-    Ui::MainWindow *ui;
+    QLabel *baseImageLabel;
+    QLabel *processedImageLabel;
+    QPushButton *processButton;
+    QString imagePath;
+
 };
+
 #endif // MAINWINDOW_H

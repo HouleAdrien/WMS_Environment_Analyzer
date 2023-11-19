@@ -17,8 +17,7 @@ HEADERS += \
     MainWindow.h \
     $$files(WMSEA/headers/*.h)
 
-FORMS += \
-    MainWindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
