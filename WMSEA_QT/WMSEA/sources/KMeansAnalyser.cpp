@@ -216,6 +216,24 @@ ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image, vector<Color> colo
     return output;
 }
 
+float KMeansAnalyzer::compareImages(ImageBase* real, ImageBase* test)
+{
+    int goods = 0; int total = real->getSize();
+    
+    for(int i = 0; i < total;i++)
+    {
+        Color pr = real->readColor(i);
+        Color pt = test->readColor(i);
+
+        if(pr.r == pt.r && pr.g == pt.g && pr.b == pt.b)
+        {
+            goods++;   
+        }
+    }
+
+    return goods / (float)total;
+}
+
 void KMeansAnalyzer::colorizePgmImages()
 {
     
