@@ -104,6 +104,8 @@ public:
     ImageBase* colorizePgmImage(ImageBase* image, vector<Color> colors);
     void colorizePgmImages();
 
+    float compareImages(ImageBase* real, ImageBase* test);
+
     void writeClusterDataFile();
     void readClusterDataFile(string path);
 };
