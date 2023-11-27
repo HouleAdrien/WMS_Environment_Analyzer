@@ -1,0 +1,11 @@
+name: mon_env_ia
+channels:
+  - defaults
+dependencies:
+  - python=3.8  # ou une autre version de Python de votre choix
+  - numpy
+  - pillow
+  - scikit-learn
+  - tensorflow
+  - jupyter
+  - ipykernel
