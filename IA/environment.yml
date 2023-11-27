@@ -1,4 +1,4 @@
-name: mon_env_ia
+name: env_ia
 channels:
   - defaults
 dependencies:
