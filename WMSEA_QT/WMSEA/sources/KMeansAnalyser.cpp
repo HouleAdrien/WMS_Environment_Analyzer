@@ -314,11 +314,7 @@ vector<float> KMeansAnalyzer::compareImagesGroup(string real, string test)
         {
             isum += matrix.at(i + (j*12));
         }   
-        if(isum == 0)
-        {
-            matrix.at(i + (j*12)) = 0;
-        }
-        else
+        if(isum != 0)
         {
             for(int j = 0; j < 12; j++)
             {
