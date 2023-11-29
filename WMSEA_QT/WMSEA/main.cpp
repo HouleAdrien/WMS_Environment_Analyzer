@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
     vector<float> confMatrix = kma.compareImagesGroup("../../IA/TrainData/Esa_tile1_ppms","../../datasets/Esa_Tile1_Sat_PPM/results/ppms");
     kma.displayMatrix(confMatrix,12);
 
-    //kma.colorizePgmImages("../../datasets/Esa_Tile1_Sat_PPM/results");
+    //kma.colorizePgmImages("../../datasets/Esa_Tile1_Sat_PPM/results"); //Colorize les images PGM avec le labelColors
 
-    //kma.generateClusteredImages(true);
+    //kma.generateClusteredImages(true); //Genere les images clsterisees en PGM (true) ou PPM (false)
     //kma.writeClusterDataFile();
 
     return 0;
