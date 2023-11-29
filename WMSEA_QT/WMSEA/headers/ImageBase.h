@@ -131,7 +131,7 @@ struct Color
 
 	bool operator==(const Color& a) const
 	{
-    	return (r == a.r && g == a.g && b == a.b);
+    	return ((int)r == (int)a.r && (int)g == (int)a.g && (int)b == (int)a.b);
 	}
 };
 

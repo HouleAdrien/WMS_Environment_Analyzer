@@ -9,6 +9,8 @@
         "ratio": "cpp",
         "ostream": "cpp",
         "format": "cpp",
-        "list": "cpp"
-    }
+        "list": "cpp",
+        "chrono": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

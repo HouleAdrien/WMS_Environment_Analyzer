@@ -55,7 +55,7 @@ void MainWindow::LoadBaseImage(){
 void MainWindow::loadClusterOfImage()
 {
     KMeansAnalyzer kma;
-    kma.readClusterDataFile("../datasets/truemarblepartials/test2/results/clusterData.txt");
+    kma.readClusterDataFile("../datasets/truemarblepartials/clusterData.txt");
     const char * path = imagePath.toStdString().c_str();
     ImageBase* image = new ImageBase(); image->load((char*)path);
     image = kma.generateClusteredImage(image);

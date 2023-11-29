@@ -106,11 +106,16 @@ public:
     void generateClusteredImages(bool pgm = false);
 
     ImageBase* colorizePgmImage(ImageBase* image);//, vector<Color> colors);
-    void colorizePgmImages();
+    void colorizePgmImages(string path);
 
     void displayMatrix(vector<float> matrix,int w);
     int getColorId(Color c,vector<Color> _colors);
+
+    vector<float> compareImagesGroup(string real, string test);
     vector<float> compareImages(ImageBase* real, ImageBase* test);
+
+
+
 
     void writeClusterDataFile();
     void readClusterDataFile(string path);

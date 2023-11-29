@@ -42,12 +42,18 @@ int main(int argc, char *argv[])
     kma.addLabelColor(Color(255,255,76)); //YELLOW  grassland
     kma.addLabelColor(Color(0,100,0)); //green   tree cover
     kma.addLabelColor(Color(250,230,160)); //MOSS ad lichten
+    kma.addLabelColor(Color(0,0,0));  // NO LABEL
  
-    //ImageBase* image = new ImageBase(); image->load("../../datasets/Esa_Tile1_Sat_PPM/results/ESA_WorldCover_10m_2021_V200_N39W006_Map.pgm");///truemarblepartials/comparaison/PGM.pgm");///test3/PGM.pgm");
+    //ImageBase* image = new ImageBase(); image->load("../../datasets/Esa_Tile1_Sat_PPM/results/ESA_WorldCover_10m_2021_V200_N63W018_Map.pgm");///truemarblepartials/comparaison/PGM.pgm");///test3/PGM.pgm");
     //ImageBase* cimage = kma.colorizePgmImage(image);
-    //cimage->save("../../datasets/Esa_Tile1_Sat_PPM/ppms/ESA_WorldCover_10m_2021_V200_N39W006_Map.ppm");//datasets/truemarblepartials/comparaison/PGM.ppm");//test3/PGM.ppm"); 
+    //cimage->save("../../datasets/Esa_Tile1_Sat_PPM/ppms/ESA_WorldCover_10m_2021_V200_N63W018_Map.ppm");//datasets/truemarblepartials/comparaison/PGM.ppm");//test3/PGM.ppm"); 
 
-    kma.generateClusteredImages(true);
+    vector<float> confMatrix = kma.compareImagesGroup("../../IA/TrainData/Esa_tile1_ppms","../../datasets/Esa_Tile1_Sat_PPM/results/ppms");
+    kma.displayMatrix(confMatrix,12);
+
+    //kma.colorizePgmImages("../../datasets/Esa_Tile1_Sat_PPM/results");
+
+    //kma.generateClusteredImages(true);
     //kma.writeClusterDataFile();
 
     return 0;

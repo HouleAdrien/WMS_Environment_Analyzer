@@ -206,6 +206,22 @@ void KMeansAnalyzer::generateClusteredImages(bool pgm)
     }
 }
 
+void KMeansAnalyzer::colorizePgmImages(string path)
+{
+    if(filesystem::exists(path))
+    {
+        for(const auto & entry : filesystem::directory_iterator(path))
+        {
+            string ipath = entry.path().generic_string();
+            ImageBase* image = new ImageBase(); image->load(ipath.data());
+            ImageBase* cimage = colorizePgmImage(image);      
+
+            string nam = ipath.substr(ipath.find_last_of("/\\") + 1);
+            string cp = path + "/ppms/" + nam;
+            cimage->save(cp.data());
+        }
+    }else{cout << "Couldnt find path : " << imagesPath << endl; }
+}
 ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image)//, vector<Color> colors)
 {
     ImageBase* output = new ImageBase(image->getWidth(),image->getHeight(),true);
@@ -214,12 +230,15 @@ ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image)//, vector<Color> c
         output->setColor(i,labelColors.at(image->get(i,0)));
     }
     return output;
-}
+} 
 
 int KMeansAnalyzer::getColorId(Color c,vector<Color> _colors)
 {
     for(int i = 0 ; i < _colors.size();i++)
     {
+        /*cout << (int)c.r << " " << (int)_colors.at(i).r << endl;
+        cout << (int)c.g << " " << (int)_colors.at(i).g << endl;
+        cout << (int)c.b << " " << (int)_colors.at(i).b << endl;*/
         if(c == _colors.at(i)){return i;}
     }
     return -1;
@@ -227,21 +246,85 @@ int KMeansAnalyzer::getColorId(Color c,vector<Color> _colors)
 
 void KMeansAnalyzer::displayMatrix(vector<float> matrix, int w)
 {
-    cout << "Matrix : " << endl;
+    cout << "Confusion Matrix : " << endl;
     for(int j = 0; j < w; j++)
     {
+        cout << "| ";
         for(int i = 0; i < w; i++)
         {
-            cout << matrix.at(i + (j*w)) << " ";
-        }
+            int v = (int)(matrix.at(i + (j*w)) * 100);
+            cout << v << "% |";
+        }        
+        cout << endl;
+        for(int i = 0; i < w; i++){cout << "-";}
         cout << endl;
     }
+}
+
+vector<float> KMeansAnalyzer::compareImagesGroup(string real, string test)
+{
+    vector<string> realPathes, testPathes;
+
+    cout << "Fetching images pathes" << endl;
+
+    if(filesystem::exists(real))
+    {
+        for(const auto & entry : filesystem::directory_iterator(real))
+        {
+            realPathes.push_back(entry.path().generic_string());
+        }
+    }else{cout << "Couldnt find path : " << real << endl; }
+
+    if(filesystem::exists(test))
+    {
+        for(const auto & entry : filesystem::directory_iterator(test))
+        {
+            testPathes.push_back(entry.path().generic_string());
+        }
+    }else{cout << "Couldnt find path : " << test << endl; }
+
+    cout << "Processing matrixes" << endl;
+
+    vector<float> matrix; matrix.resize(12*12,0);
+    for(int i = 0; i < min(realPathes.size(),testPathes.size());i++)
+    {
+        string rpath = realPathes.at(i);
+        ImageBase* realI = new ImageBase(); realI->load(rpath.data());
+        string tpath = testPathes.at(i);
+        ImageBase* testI = new ImageBase(); testI->load(tpath.data());
+        
+        cout << "   Processing " << rpath << " with " << tpath << endl;
+ 
+        vector<float> m = compareImages(realI,testI);
+
+        for(int j = 0; j < matrix.size();j++)
+        {
+            matrix.at(j) += m.at(j);
+        }
+    }
+
+    cout << "Normalising matrix" << endl; 
+
+    for(int i = 0; i < 12; i++)
+    {
+        float isum = 0;
+        for(int j = 0; j < 12; j++)
+        {
+            isum += matrix.at(i + (j*12));
+        }   
+        for(int j = 0; j < 12; j++)
+        {
+            matrix.at(i + (j*12)) /= isum;
+        }
+    }
+
+    return matrix;
 }
 
 vector<float> KMeansAnalyzer::compareImages(ImageBase* real, ImageBase* test)
 {
     vector<float> matrix; 
-    matrix.resize(11*11,0);
+    matrix.resize(12*12,0);
     int total = real->getSize();
 
     for(int i = 0; i < total;i++)
@@ -250,16 +333,14 @@ vector<float> KMeansAnalyzer::compareImages(ImageBase* real, ImageBase* test)
         Color pt = test->readColor(i);
         int idr = getColorId(pr,labelColors);
         int idt = getColorId(pt,labelColors);
-
-        matrix.at(idr + (idt * 11))++;
-    }
-
-    return matrix;
-}
-
-void KMeansAnalyzer::colorizePgmImages()
-{
+        //cout << i << " idr " << idr << "  idt " << idt << endl;
+        if(idr != -1 && idt != -1)
+        {
+            matrix.at(idr + (idt * 12))++;
+        }
+    }   
     
+    return matrix;
 }
 
 void KMeansAnalyzer::writeClusterDataFile()
