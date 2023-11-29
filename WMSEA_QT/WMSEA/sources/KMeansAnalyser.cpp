@@ -217,7 +217,9 @@ void KMeansAnalyzer::colorizePgmImages(string path)
             ImageBase* cimage = colorizePgmImage(image);      
 
             string nam = ipath.substr(ipath.find_last_of("/\\") + 1);
-            string cp = path + "/ppms/" + nam;
+            size_t dotPosition = nam.find_last_of('.');
+            nam = nam.substr(0, dotPosition);
+            string cp = path + "/ppms/" + nam + ".ppm";
             cimage->save(cp.data());
         }
     }else{cout << "Couldnt find path : " << imagesPath << endl; }
