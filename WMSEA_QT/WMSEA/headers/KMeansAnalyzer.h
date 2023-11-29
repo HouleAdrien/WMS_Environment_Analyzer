@@ -64,7 +64,7 @@ private:
         Color(255,165,0),       // Orange
         Color(255,192,203)      // Pink
 };
-
+    vector<Color> labelColors;
     
 public:
     KMeansAnalyzer();
@@ -87,6 +87,10 @@ public:
     {
         clustersInitColors.push_back(c);
     }
+    void addLabelColor(Color c)
+    {
+        labelColors.push_back(c);
+    }
 
     // Définir le nombre de clusters pour le K-Means
     void initClusters(int numClusters, float minDistanceMean);
@@ -101,10 +105,12 @@ public:
     ImageBase* generateClusteredImage(ImageBase* input,bool pgm = false);
     void generateClusteredImages(bool pgm = false);
 
-    ImageBase* colorizePgmImage(ImageBase* image, vector<Color> colors);
+    ImageBase* colorizePgmImage(ImageBase* image);//, vector<Color> colors);
     void colorizePgmImages();
 
-    float compareImages(ImageBase* real, ImageBase* test);
+    void displayMatrix(vector<float> matrix,int w);
+    int getColorId(Color c,vector<Color> _colors);
+    vector<float> compareImages(ImageBase* real, ImageBase* test);
 
     void writeClusterDataFile();
     void readClusterDataFile(string path);

@@ -128,6 +128,11 @@ struct Color
 	  g = (unsigned char)max(0,min(255,(int)(y - 0.4414*(cb-128) - 0.71414*(cr-128))));
 	  b = (unsigned char)max(0,min(255,(int)(y + 1.772*(cb-128))));
 	}
+
+	bool operator==(const Color& a) const
+	{
+    	return (r == a.r && g == a.g && b == a.b);
+	}
 };
 
 class ImageBase

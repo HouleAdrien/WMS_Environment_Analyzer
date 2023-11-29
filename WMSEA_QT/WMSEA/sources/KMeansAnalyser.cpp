@@ -206,32 +206,55 @@ void KMeansAnalyzer::generateClusteredImages(bool pgm)
     }
 }
 
-ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image, vector<Color> colors)
+ImageBase* KMeansAnalyzer::colorizePgmImage(ImageBase* image)//, vector<Color> colors)
 {
     ImageBase* output = new ImageBase(image->getWidth(),image->getHeight(),true);
     for(int i = 0; i < image->getSize();i++)
     {
-        output->setColor(i,colors.at(image->get(i,0)));
+        output->setColor(i,labelColors.at(image->get(i,0)));
     }
     return output;
 }
 
-float KMeansAnalyzer::compareImages(ImageBase* real, ImageBase* test)
+int KMeansAnalyzer::getColorId(Color c,vector<Color> _colors)
 {
-    int goods = 0; int total = real->getSize();
-    
+    for(int i = 0 ; i < _colors.size();i++)
+    {
+        if(c == _colors.at(i)){return i;}
+    }
+    return -1;
+}
+
+void KMeansAnalyzer::displayMatrix(vector<float> matrix, int w)
+{
+    cout << "Matrix : " << endl;
+    for(int j = 0; j < w; j++)
+    {
+        for(int i = 0; i < w; i++)
+        {
+            cout << matrix.at(i + (j*w)) << " ";
+        }
+        cout << endl;
+    }
+}
+
+vector<float> KMeansAnalyzer::compareImages(ImageBase* real, ImageBase* test)
+{
+    vector<float> matrix; 
+    matrix.resize(11*11,0);
+    int total = real->getSize();
+
     for(int i = 0; i < total;i++)
     {
         Color pr = real->readColor(i);
         Color pt = test->readColor(i);
+        int idr = getColorId(pr,labelColors);
+        int idt = getColorId(pt,labelColors);
 
-        if(pr.r == pt.r && pr.g == pt.g && pr.b == pt.b)
-        {
-            goods++;   
-        }
+        matrix.at(idr + (idt * 11))++;
     }
 
-    return goods / (float)total;
+    return matrix;
 }
 
 void KMeansAnalyzer::colorizePgmImages()
