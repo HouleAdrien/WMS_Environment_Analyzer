@@ -9,3 +9,5 @@ dependencies:
   - tensorflow
   - jupyter
   - ipykernel
+  - matplotlib  # Added for plotting confusion matrix
+  - seaborn     # Added for plotting confusion matrix
